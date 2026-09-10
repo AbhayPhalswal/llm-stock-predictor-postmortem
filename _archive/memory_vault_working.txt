@@ -1,0 +1,7 @@
+functions:
+get_connection() - connects sqlite3 file with python
+initialize_vault() - creates vault with necessary tables and seeds the initial active capital profile
+get_active_capital() - shows active capital
+get_recent_performance_feedback - pulls last 5 days records to build historical feedback string for AI
+log_morning_prediction() - upserts morning ai prediction
+log_afternoon_reality() - Settles the day's open position, updates portfolio performance, and writes feedback loop data

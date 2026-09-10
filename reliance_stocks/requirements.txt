@@ -1,0 +1,34 @@
+# RELIANCE QUANTITATIVE ENGINE — runtime dependencies
+#
+# Install with:   pip install -r requirements.txt
+#
+# As of the last audit NONE of these were present in the active interpreter
+# (Python 3.12), which is why every entry-point script failed at import.
+
+# ── Market data ───────────────────────────────────────────────────────────────
+yfinance>=0.2.40          # NSE OHLC candles + news feed
+pandas>=2.0               # yfinance dependency; DataFrame handling
+
+# ── Timezone handling ─────────────────────────────────────────────────────────
+pytz>=2024.1              # Asia/Kolkata market gates
+
+# ── Local LLM client ──────────────────────────────────────────────────────────
+openai>=1.30              # OpenAI-compatible client pointed at LM Studio
+
+# ── News scraping ─────────────────────────────────────────────────────────────
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.2                 # OPTIONAL but recommended: enables the proper "xml"
+                          # RSS parser. Without it alpha_scraper falls back to
+                          # html.parser, which works but is less strict.
+
+# ── Dashboard ─────────────────────────────────────────────────────────────────
+flet>=0.28                # Desktop UI. Note: dashboard.py targets the 0.85+
+                          # API (ft.run / ft.Button / ft.Animation). Verify the
+                          # installed major version before first launch.
+
+# ── NOT included, deliberately ────────────────────────────────────────────────
+# pandas-ta — referenced in dashboard.py's alpha-matrix hooks (RSI/EMA/ATR) but
+# it is unmaintained and breaks against recent numpy/pandas. If you wire up real
+# technical indicators, prefer `ta` or compute the four series directly; they are
+# a handful of rolling means.

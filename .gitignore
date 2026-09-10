@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Windows folder metadata
+desktop.ini
+Thumbs.db
+
+# Cached market data — regenerate with: python research/fetch_data.py
+# ~5 MB of vendor CSVs; not ours to redistribute, and reproducible in one command.
+reliance_stocks/research/data/
+
+# Derived research artefacts — regenerate with build_panel.py / evaluate.py
+reliance_stocks/research/panel.csv
+reliance_stocks/research/oos_preds.csv
+reliance_stocks/research/oos_idx.npy
+reliance_stocks/research/feature_cols.txt
+
+# SQLite write-ahead log sidecars (the .db itself IS tracked — it is the
+# evidence behind the live-trading results reported in the README)
+*.db-wal
+*.db-shm
