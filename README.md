@@ -103,6 +103,50 @@ cost starts at about 10 bps.
 
 ---
 
+## Sample output
+
+`build_panel.py` — the leakage audit is a build gate, not a report:
+
+```
+Building feature families...
+  price_vol    19 features
+  index         9 features
+  peers         5 features
+  macro        13 features
+  calendar      8 features
+
+  rows: 2474 -> 2454 after warm-up and label trim
+  features: 54
+
+Running leakage audit...
+  leakage audit: PASSED (no feature exceeds |r|>0.30 vs the label)
+
+Base rate (close > open): 47.07%
+Mean open-to-close return: -0.0452%
+Daily stdev: 1.5143%
+```
+
+`evaluate.py` — 13-fold walk-forward bake-off, net of 20 bps:
+
+```
+Panel      : 2454 days, 54 features
+Folds      : 13  (train>=750, test=125, embargo=5)
+OOS window : 2019-11-07 .. 2026-09-10
+Costs      : 20 bps round trip   ·  trade threshold p>0.55
+
+model                     dir acc     AUC   net ann   sharpe   max dd   traded
+==============================================================================
+baseline: always-long      47.45%       —   -48.85%    -2.61   -98.8%   100.0%
+baseline: always-short     52.55%       —   -32.35%    -1.47   -93.7%   100.0%
+baseline: always-flat           —       —     0.00%     0.00     0.0%     0.0%
+logistic_l2                52.12%  0.5364   -16.96%    -0.79   -72.8%    62.1%
+logistic_l1                50.46%  0.5060    -4.68%    -0.58   -37.8%     9.2%
+random_forest              53.72%  0.5321   -10.14%    -0.64   -55.6%    31.8%
+extra_trees                51.75%  0.5111    -4.07%    -0.34   -31.0%    18.2%
+hist_gb                    52.49%  0.5383   -15.96%    -0.72   -85.0%    68.8%
+mlp                        49.66%  0.4740   -34.57%    -1.83   -93.9%    70.1%
+```
+
 ## Why you can trust these numbers
 
 Most retail algo-trading repos report large returns that come from lookahead
