@@ -24,6 +24,8 @@ open-to-close window. That is the one window where the stock does not go up.
 Over 10 years, always-long open-to-close compounds to **−13.2%/yr before costs**.
 No amount of feature engineering fixes a window choice.
 
+![Overnight versus intraday cumulative return](docs/img/overnight_vs_intraday.png)
+
 **2. Transaction costs dominate everything.** A daily round trip at 20 bps costs
 **50% a year in fees alone**. The best model found a real but tiny edge of
 ~5.5 bps/day. Every strategy tested lost to holding cash, and all of them lost
@@ -36,6 +38,8 @@ to buy-and-hold.
 | Best intraday ML model | −10.14% | ~80 |
 | Overnight, every night | −20.00% | 250 |
 | **Always-long intraday** *(what the original system did)* | **−48.85%** | 250 |
+
+![Net equity curves against benchmarks](docs/img/equity_curves.png)
 
 ---
 
@@ -71,9 +75,12 @@ And it has decayed. Net return by year, best overnight configuration at 20 bps:
 | +77.6% | +16.2% | +5.2% | **−3.1%** | **−9.9%** | **−0.6%** | **−7.9%** |
 
 The entire headline return is 2020–2021, the COVID volatility regime. Every year
-since 2023 is negative. Reporting only the aggregate would have shown a
-profitable strategy; the year-by-year view shows one that stopped working four
-years ago.
+since 2023 is negative.
+
+Reporting only the aggregate would have shown a profitable strategy; the
+year-by-year view shows one that stopped working four years ago.
+
+![Overnight effect decay by year](docs/img/overnight_decay.png)
 
 ## Does adding more data help? No.
 
@@ -88,6 +95,11 @@ Even the overnight gap — the single most plausible predictor of an intraday mo
 a priori — is insignificant (ρ=−0.024, p=0.227).
 
 The constraint is cost and market efficiency, not information.
+
+![Cost sensitivity](docs/img/cost_sensitivity.png)
+
+Every model crosses into loss between 6 and 10 bps. Realistic retail round-trip
+cost starts at about 10 bps.
 
 ---
 
@@ -130,6 +142,7 @@ reliance_stocks/
     ├── build_panel.py     leakage-safe panel + audit
     ├── evaluate.py        13-fold walk-forward bake-off
     ├── overnight.py       overnight strategy study
+    ├── make_charts.py     renders the README figures from the artefacts
     ├── FINDINGS.md        full results write-up
     └── ORCHESTRATION.md   multi-agent work plan
 _archive/                  superseded V1 prototype, kept for history
@@ -144,6 +157,7 @@ python fetch_data.py     # ~1 min, 21 tickers × 10y
 python build_panel.py    # panel + leakage audit
 python evaluate.py       # walk-forward bake-off
 python overnight.py      # overnight study
+python make_charts.py    # regenerate the README figures
 ```
 
 ## The live system
